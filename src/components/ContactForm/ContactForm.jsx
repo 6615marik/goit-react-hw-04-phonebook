@@ -1,10 +1,10 @@
-import React from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import css from './ContactForm.module.css';
 
-export const ContactForm = ({ onSubmit, name, number, setNumber, setName }) => {
-  // const [name, setName] = useState('');
-  // const [number, setNumber] = useState('');
+export const ContactForm = ({ onSubmit }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
   const handleChangeForm = ({ target }) => {
     // console.log(target);
@@ -19,7 +19,7 @@ export const ContactForm = ({ onSubmit, name, number, setNumber, setName }) => {
   const handleFormSubmit = e => {
     e.preventDefault();
     const data = { name, number };
-    onSubmit(data);
+    onSubmit({ data, name, number });
     setName('');
     setNumber('');
   };

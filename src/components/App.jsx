@@ -12,8 +12,6 @@ export const App = () => {
     { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
   ];
 
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
   const [filter, setFilter] = useState('');
   const [contacts, setContacts] = useState(() => {
     return JSON.parse(window.localStorage.getItem('contacts')) ?? initialData;
@@ -32,12 +30,9 @@ export const App = () => {
       id: nanoid(),
       ...data,
     };
-    setContacts(contacts => {
-      return [newContact, ...contacts];
-    });
-    setName('');
-    setNumber('');
+    setContacts(prev => [...prev, newContact]);
   };
+
   const handleFilterChange = e => {
     setFilter(e.currentTarget.value);
   };
@@ -55,13 +50,7 @@ export const App = () => {
   return (
     <div className="main">
       <h1>Phonebook</h1>
-      <ContactForm
-        onSubmit={handleAddContact}
-        name={name}
-        setName={setName}
-        number={number}
-        setNumber={setNumber}
-      />
+      <ContactForm onSubmit={handleAddContact} />
       <h2>Contacts</h2>
       <ContactList
         contacts={visibleContacts(contacts, filter)}
