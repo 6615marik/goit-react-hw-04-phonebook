@@ -28,12 +28,11 @@ export const App = () => {
       alert(`${data.name} already exists`);
       return;
     }
-
+    const newContact = {
+      id: nanoid(),
+      ...data,
+    };
     setContacts(contacts => {
-      const newContact = {
-        id: nanoid(),
-        ...data,
-      };
       return [newContact, ...contacts];
     });
     setName('');
@@ -44,7 +43,7 @@ export const App = () => {
   };
 
   const handleRemoveContact = contactId => {
-    setContacts(contacts.filter(({ id }) => id !== contactId));
+    setContacts(prev => prev.filter(({ id }) => id !== contactId));
   };
 
   const visibleContacts = (contacts, filter) => {
@@ -56,7 +55,13 @@ export const App = () => {
   return (
     <div className="main">
       <h1>Phonebook</h1>
-      <ContactForm onSubmit={handleAddContact} name={name} number={number} />
+      <ContactForm
+        onSubmit={handleAddContact}
+        name={name}
+        setName={setName}
+        number={number}
+        setNumber={setNumber}
+      />
       <h2>Contacts</h2>
       <ContactList
         contacts={visibleContacts(contacts, filter)}
